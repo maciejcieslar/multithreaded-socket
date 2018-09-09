@@ -47,7 +47,7 @@ const onAuth: SocketMiddleware = (socket, next) => {
 
 const onConnection: SocketMiddleware = (socket, next) => {
   if (!socket.user) {
-    return null;
+    return next(new Error('Something went wrong.'));
   }
 
   const { id } = socket.user;
@@ -68,7 +68,7 @@ const onConnection: SocketMiddleware = (socket, next) => {
     return socketsState.remove(id, socket);
   });
 
-  next();
+  return next();
 };
 
 const initSocket = (instance: socketio.Namespace): socketio.Namespace =>
